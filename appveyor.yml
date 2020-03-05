@@ -55,7 +55,7 @@ build_script:
       -D CMAKE_BUILD_TYPE=Release ^
       -D ENABLE_FORTRAN=0 ^
       -D ENABLE_PYTHON=0 ^
-      -D ENABLE_NETCDF=0 ^
+      -D ENABLE_NETCDF=1 ^
       -D ENABLE_PNG=1 ^
       -D ENABLE_JPG=1 ^
       -D OPENJPEG_INCLUDE_DIR=%CONDA%\Library\include\openjpeg-2.3 ^
