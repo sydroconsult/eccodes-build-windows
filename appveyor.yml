@@ -3,7 +3,7 @@
 #      general configuration      #
 #---------------------------------#
 
-version: 2.13.1-{build}
+version: 2.16.0-{build}
 
 branches:
   only:
@@ -15,8 +15,8 @@ environment:
   CONDA: c:\Miniconda37-x64
   INSTALL_DIR: c:\ECMWF
 
-  SOURCE_DIRECTORY: eccodes-2.13.1-Source
-  SOURCE_TAR: https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.13.1-Source.tar.gz?api=v2
+  SOURCE_DIRECTORY: eccodes-2.16.0-Source
+  SOURCE_TAR: https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.16.0-Source.tar.gz?api=v2
 
 # scripts that are called at very beginning, before repo cloning
 init:
