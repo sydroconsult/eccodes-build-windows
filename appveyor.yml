@@ -15,7 +15,8 @@ image: Visual Studio 2015
 environment:
   CONDA: c:\Miniconda37-x64
   ECMWF: c:\ECMWF
-  GIT_CLONE_DIR: $(ECMWF)\git_local
+  GIT_CLONE_DIR_LOCAL: $(ECMWF)\git_local
+  GIT_CLONE_DIR: $(ECMWF)\git
   INSTALL_DIR: $(ECMWF)\install
   ECCODES_SRC: $(GIT_CLONE_DIR)\eccodes
   WINDOWS_TESTING_BASHRC: $(ECCODES_SRC)\tests\windows_testing.bashrc
@@ -45,7 +46,10 @@ clone_depth: 1
 # scripts that run after cloning repository
 install:
   #clone actual repo
-  - cmd: git clone -q --depth=1 --branch=master https://github.com/ecmwf/eccodes.git c:\ecmwf\git\eccodes
+  - cmd: git remote add origin https://github.com/ecmwf/eccodes.git
+  - cmd: cd c:\ecmwf\git\eccodes
+  - cmd: git fetch origin 
+  #- cmd: git clone -q --depth=1 --branch=master https://github.com/ecmwf/eccodes.git c:\ecmwf\git\eccodes
   
   #- cmd: curl -o sources.tar.gz %SOURCE_TAR%
   - cmd: git clone --depth 1 https://github.com/ecmwf/ecbuild.git %ECBUILD_SRC%
