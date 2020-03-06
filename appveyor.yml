@@ -84,7 +84,9 @@ before_build:
   
 build_script:
   - cmd: cd %ECCODES_SRC%
-  - cmd: mkdir build && cd build
+  - cmd: pwd
+  - cmd: mkdir build
+  - cmd: cd build
   - cmd: cmake -G "NMake Makefiles" ^
                -D CMAKE_INSTALL_PREFIX=%INSTALL_DIR% ^
                -D CMAKE_BUILD_TYPE=Release ^
