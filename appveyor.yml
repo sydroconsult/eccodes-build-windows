@@ -15,7 +15,7 @@ image: Visual Studio 2015
 environment:
   CONDA: c:\Miniconda37-x64
   ECMWF: c:\ECMWF
-  GIT_CLONE_DIR: $(ECMWF)\git
+  GIT_CLONE_DIR: $(ECMWF)\git_local
   INSTALL_DIR: $(ECMWF)\install
   ECCODES_SRC: $(GIT_CLONE_DIR)\eccodes
   WINDOWS_TESTING_BASHRC: $(ECCODES_SRC)\tests\windows_testing.bashrc
