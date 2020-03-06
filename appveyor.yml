@@ -7,112 +7,70 @@ version: 2.13.1-{build}
 
 branches:
   only:
-    - develop  
     - master
 
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 environment:
   CONDA: c:\Miniconda37-x64
-  ECMWF: c:\ECMWF
-  GIT_CLONE_DIR_LOCAL: $(ECMWF)\git_local
-  GIT_CLONE_DIR: $(ECMWF)\git
-  INSTALL_DIR: $(ECMWF)\install
-  ECCODES_SRC: $(GIT_CLONE_DIR)\eccodes
-  WINDOWS_TESTING_BASHRC: $(ECCODES_SRC)\tests\windows_testing.bashrc
-  ECBUILD_SRC: $(GIT_CLONE_DIR)\ecbuild
+  INSTALL_DIR: c:\ECMWF
 
-  #SOURCE_DIRECTORY: eccodes-2.13.1-Source
-  #SOURCE_TAR: https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.13.1-Source.tar.gz?api=v2
+  SOURCE_DIRECTORY: eccodes-2.13.1-Source
+  SOURCE_TAR: https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.13.1-Source.tar.gz?api=v2
 
 # scripts that are called at very beginning, before repo cloning
 init:
-#  - cmd: git config --global core.symlinks true
-#  - cmd: call %CONDA%\Scripts\activate.bat
-#  - cmd: conda config --set always_yes yes
-  # make sure git clones symlinks as symlinks
   - cmd: git config --global core.symlinks true
-    # activate conda environment so the tests can find linux utils
   - cmd: call %CONDA%\Scripts\activate.bat
-    # add eccodes\build\bin to path so tests can find eccodes.dll
-  - cmd: set PATH=%PATH%;%ECCODES_SRC%\build\bin
-    # auto-yes for conda
   - cmd: conda config --set always_yes yes
-
-clone_folder: $(ECCODES_SRC)
 
 clone_depth: 1
 
 # scripts that run after cloning repository
 install:
-  #clone actual repo
-  - cmd: git init
-  - cmd: git remote remove origin
-  - cmd: git remote add origin https://github.com/ecmwf/eccodes.git
-  - cmd: cd c:\ecmwf\git\eccodes
-  - cmd: git fetch origin 
-  #- cmd: git clone -q --depth=1 --branch=master https://github.com/ecmwf/eccodes.git c:\ecmwf\git\eccodes
-  
-  #- cmd: curl -o sources.tar.gz %SOURCE_TAR%
-  - cmd: git clone --depth 1 https://github.com/ecmwf/ecbuild.git %ECBUILD_SRC%
- # - cmd: 7z x -tgzip -so sources.tar.gz | 7z x -si -ttar
+  - cmd: curl -o sources.tar.gz %SOURCE_TAR%
+  - cmd: 7z x -tgzip -so sources.tar.gz | 7z x -si -ttar
     # install linux utils from msys
-  #- cmd: conda install -c msys2 m2-bash ^
-  #    m2-findutils ^
-  #    m2-coreutils ^
-  #    m2-grep ^
-  #    m2-sed ^
-  #    m2-gawk ^
-  #    m2-diffutils ^
-  #    m2-perl
-    # get the latest version of cmake
-  #- cmd: conda install -c conda-forge cmake
-    # other deps
-  #- cmd: conda install libpng openjpeg
-
-    # install linux utils
   - cmd: conda install -c msys2 m2-bash ^
-                                m2-findutils ^
-                                m2-coreutils ^
-                                m2-grep ^
-                                m2-sed ^
-                                m2-gawk ^
-                                m2-diffutils ^
-                                m2-perl ^
-                                m2w64-ntldd-git
-
-    # get deps
+      m2-findutils ^
+      m2-coreutils ^
+      m2-grep ^
+      m2-sed ^
+      m2-gawk ^
+      m2-diffutils ^
+      m2-perl
+    # get the latest version of cmake
   - cmd: conda install -c conda-forge cmake libnetcdf
-
-platform:
-  - x64
+    # other deps
+  - cmd: conda install libpng openjpeg
 
 before_build:
-  - cmd: call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64
-  - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
-  
+  - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+
 build_script:
-  - cmd: cd %ECCODES_SRC%
-  - cmd: pwd
-  - cmd: ls
-  - cmd: mkdir build
-  - cmd: cd build
-  - cmd: ls
+  - cmd: cd %SOURCE_DIRECTORY%
+  - cmd: mkdir BUILD && cd BUILD
   - cmd: cmake -G "NMake Makefiles" ^
-               -D CMAKE_INSTALL_PREFIX=%INSTALL_DIR% ^
-               -D CMAKE_BUILD_TYPE=Release ^
-               -D ENABLE_FORTRAN=0 ^
-               -D ENABLE_PYTHON=0 ^
-               -D ENABLE_NETCDF=1 ^
-               -D ENABLE_JPG=1 ^
-               -D IEEE_LE=1 ^
-               -D ENABLE_MEMFS=0 ^
-               -D ENABLE_EXTRA_TESTS=ON ^
-               -D WINDOWS_TESTING_BASHRC=%WINDOWS_TESTING_BASHRC% ^
-               ..
-  - cmd: nmake
-  - cmd: ctest --output-on-failure
+      -D CMAKE_INSTALL_PREFIX=%INSTALL_DIR% ^
+      -D CMAKE_BUILD_TYPE=Release ^
+      -D ENABLE_FORTRAN=0 ^
+      -D ENABLE_PYTHON=0 ^
+      -D ENABLE_NETCDF=1 ^
+      -D ENABLE_PNG=1 ^
+      -D ENABLE_JPG=1 ^
+      -D OPENJPEG_INCLUDE_DIR=%CONDA%\Library\include\openjpeg-2.3 ^
+      -D IEEE_LE=1 ^
+      -D ENABLE_EXAMPLES=0 ^
+      -D ENABLE_MEMFS=0 ^
+      -D ENABLE_TESTS=0 ^
+      -D ENABLE_EXTRA_TESTS=OFF ^
+      ..
+
   - cmd: nmake install
+  - cmd: copy "%CONDA%\Library\bin\openjp2.dll" "%INSTALL_DIR%\bin\"
+  - cmd: copy "%CONDA%\Library\bin\libpng16.dll" "%INSTALL_DIR%\bin\"
+  - cmd: copy "%CONDA%\Library\bin\zlib.dll" "%INSTALL_DIR%\bin\"
+
 test_script:
   - cmd: call "%INSTALL_DIR%\bin\codes_info.exe"
 
