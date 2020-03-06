@@ -44,6 +44,9 @@ clone_depth: 1
 
 # scripts that run after cloning repository
 install:
+  #clone actual repo
+  - cmd: git clone -q --depth=1 --branch=master https://github.com/ecmwf/eccodes.git c:\ecmwf\git\eccodes
+  
   #- cmd: curl -o sources.tar.gz %SOURCE_TAR%
   - cmd: git clone --depth 1 https://github.com/ecmwf/ecbuild.git %ECBUILD_SRC%
  # - cmd: 7z x -tgzip -so sources.tar.gz | 7z x -si -ttar
