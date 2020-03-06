@@ -47,6 +47,7 @@ clone_depth: 1
 install:
   #clone actual repo
   - cmd: git init
+  - cmd: git remote remove origin
   - cmd: git remote add origin https://github.com/ecmwf/eccodes.git
   - cmd: cd c:\ecmwf\git\eccodes
   - cmd: git fetch origin 
