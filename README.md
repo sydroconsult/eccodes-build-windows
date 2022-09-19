@@ -1,23 +1,25 @@
 # eccodes-build-windows
 
-Automated ECMWF EcCodes library and tools builds for Windows [![Build status](https://ci.appveyor.com/api/projects/status/uc0igp7jhnu844tw?svg=true)](https://ci.appveyor.com/project/moonpyk/eccodes-build-windows)
+Automated ECMWF EcCodes library and tools builds for Windows [![Build status](https://ci.appveyor.com/api/projects/status/u69v3e89iy521474?svg=true)](https://ci.appveyor.com/project/sydroconsult/eccodes-build-windows)
 
 
 This repository is almost empty and consists mostly of an appveyor build file. 
 The original source code resides there : [https://github.com/ecmwf/eccodes](https://github.com/ecmwf/eccodes) (Apache 2 License)
 
-The stuff resides inside the [releases page](https://github.com/moonpyk/eccodes-build-windows/releases) where compiled binaries are available.
+The stuff resides inside the [releases page](https://github.com/sydroconsult/eccodes-build-windows/releases) where compiled binaries are available.
 
 The build system compiles EcCodes with the following features enabled :
 
-  * JPEG Support (via openjpeg)
-  * PNG Support (via libpng)
+  * JPEG support (via openjpeg)
+  * PNG support (via libpng)
+  * NetCDF support (via libnetcdf)
+  * Adaptive Entropy Coding (AEC) for GRIB decoding/encoding (CCSDS) (via libaec)
 
 Those features should make tools/lib able to read all grib packings supported by EcCodes (tested with NOAA GFS, Méteo-France AROME/ARPEGE, DWD ICON, ECMWF WMO Essentials forecasts).
 
 ## Requirements
 
- * [Microsoft Visual C++ Redistributable for Visual Studio 2015, 2017 and 2019](https://aka.ms/vs/16/release/vc_redist.x64.exe) as MSVC 2017 C Compiler toolchain and SDKs are used.
+ * [Microsoft Visual C++ Redistributable for Visual Studio 2015, 2017 and 2019](https://aka.ms/vs/16/release/vc_redist.x64.exe) as MSVC 2019 C Compiler toolchain and SDKs are used.
 
 ## Installation
 
