@@ -9,7 +9,7 @@ branches:
   only:
     - master
 
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 environment:
   CONDA: c:\Miniconda37-x64
@@ -45,7 +45,7 @@ install:
   - cmd: conda install libpng openjpeg
 
 before_build:
-  - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+  - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 
 build_script:
   - cmd: cd %SOURCE_DIRECTORY%
