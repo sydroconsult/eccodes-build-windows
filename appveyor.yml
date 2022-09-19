@@ -42,7 +42,7 @@ install:
     # get the latest version of cmake
   - cmd: conda install -c conda-forge cmake libnetcdf
     # other deps
-  - cmd: conda install libpng openjpeg
+  - cmd: conda install libpng openjpeg libaec
 
 before_build:
   - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
@@ -70,6 +70,7 @@ build_script:
   - cmd: copy "%CONDA%\Library\bin\openjp2.dll" "%INSTALL_DIR%\bin\"
   - cmd: copy "%CONDA%\Library\bin\libpng16.dll" "%INSTALL_DIR%\bin\"
   - cmd: copy "%CONDA%\Library\bin\zlib.dll" "%INSTALL_DIR%\bin\"
+  - cmd: copy "%CONDA%\Library\bin\aec.dll" "%INSTALL_DIR%\bin\"
 
 test_script:
   - cmd: call "%INSTALL_DIR%\bin\codes_info.exe"
