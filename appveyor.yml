@@ -23,6 +23,7 @@ init:
   - cmd: git config --global core.symlinks true
   - cmd: call %CONDA%\Scripts\activate.bat
   - cmd: conda config --set always_yes yes
+  - cmd: conda update -n base -c defaults conda
 
 clone_depth: 1
 
